@@ -3,6 +3,7 @@ import './ShoppingCart.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeItemFromCart, clearCart, increaseItemQuantity, decreaseItemQuantity } from './CartSlice'; // Assuming you have action creators for increasing and decreasing item quantity
 import './ShoppingCart.css';
+import { enableProductId } from './ProductSlice';
 
 const ShoppingCart = () => {
 
@@ -12,9 +13,14 @@ const ShoppingCart = () => {
 
 const handleRemoveItem = itemId => {
     dispatch(removeItemFromCart(itemId));
+    dispatch(enableProductId(itemId));
   };
 
   const handleClearCart = () => {
+    const prevItems = [...cartItems];
+    for(let item of prevItems){
+        dispatch(enableProductId(item.id));
+    }
     dispatch(clearCart());
   };
 
